@@ -1,21 +1,37 @@
+#GoogleMaps API key import
 from dotenv import load_dotenv
 load_dotenv()
 import os
 KEY = os.getenv("api-key")
 
+#Pandas, and Excel enviroment import
 import pandas as pd
-from tkinter.filedialog import askopenfilename
-filename = askopenfilename()
+from openpyxl import load_workbook
 
+#File managment Import
+from tkinter import filedialog
+filename = filedialog.askopenfilename()
+#outFilename = filedialog.asksaveasfilename(defaultextension='.xlsx')
+
+#Main 
 months = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
-for month in months
-    excelSheet = pd.read_excel (filename, sheet_name = month)
-    adressCol = pd.DataFrame(excelSheet, columns= ['ADDRESS FOUND']) 
+
+book = load_workbook(filename)
+writer = pd.ExcelWriter(filename, engine = 'openpyxl')
+writer.book = book
+
+for month in months:
+    excelSheet = pd.read_excel(writer, sheet_name = month)
+    addressCol = pd.DataFrame(excelSheet, columns= ['ADDRESS FOUND']) 
+    
+    #Do stuff
+
+    addressCol.to_excel(writer, sheet_name = month, columns= ['ADDRESS FOUND'], index = False )
 
 
-    addressCol.to_excel(filename, sheet_name = month, columns= ['ADDRESS FOUND'] )
-
+writer.save()
+writer.close()
 
 # psedoCode
 
