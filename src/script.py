@@ -9,10 +9,20 @@ filename = askopenfilename()
 
 months = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
-excelSheet = [0,0,0,0,0,0,0,0,0,0,0,0]
-ColAddress = [0,0,0,0,0,0,0,0,0,0,0,0]
+for month in months
+    excelSheet = pd.read_excel (filename, sheet_name = month)
+    adressCol = pd.DataFrame(excelSheet, columns= ['ADDRESS FOUND']) 
 
-for i, month in enumerate(months):
-    excelSheet[i] = pd.read_excel (filename, sheet_name = month)
-    ColAddress[i] = pd.DataFrame(excelSheet[i], columns= ['ADDRESS FOUND']) 
 
+    addressCol.to_excel(filename, sheet_name = month, columns= ['ADDRESS FOUND'] )
+
+
+# psedoCode
+
+# for month in months 
+#     Import data of that months sheet  as data frame
+#     Pull out Address column as dataframe
+
+#     Do the thing required in google maps API
+
+#     Save Address column original excel sheet 
