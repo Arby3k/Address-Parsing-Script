@@ -9,9 +9,10 @@ filename = askopenfilename()
 
 months = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
-excelSheet = []
-ColAddress = []
+excelSheet = [0,0,0,0,0,0,0,0,0,0,0,0]
+ColAddress = [0,0,0,0,0,0,0,0,0,0,0,0]
 
 for i, month in enumerate(months):
-    excelSheet.append( pd.read_excel (filename, sheet_name = month) )
-    ColAddress.append( pd.DataFrame(excelSheet[i], columns= ['ADDRESS FOUND']) )
+    excelSheet[i] = pd.read_excel (filename, sheet_name = month)
+    ColAddress[i] = pd.DataFrame(excelSheet[i], columns= ['ADDRESS FOUND']) 
+
