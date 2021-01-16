@@ -1,5 +1,7 @@
-From dotenv import load_dotenv
+from dotenv import load_dotenv
 load_dotenv()
+import os
+KEY = os.getenv("api-key")
 
 import pandas as pd
 from tkinter.filedialog import askopenfilename
