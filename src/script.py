@@ -4,6 +4,10 @@ load_dotenv()
 import os
 KEY = os.getenv("api-key")
 
+#GoogleMaps Services for Python Import
+import googlemaps
+gmaps = googlemaps.Client(key=KEY)
+
 #Pandas, and Excel enviroment import
 import pandas as pd
 import openpyxl as op
@@ -14,7 +18,7 @@ filename = filedialog.askopenfilename()
 #outFilename = filedialog.asksaveasfilename(defaultextension='.xlsx')
 
 #Main 
-months = ['JAN', 'FEB', 'MAR', 'APR', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+months = ['JAN']#, 'FEB', 'MAR', 'APR', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
 
 
@@ -22,10 +26,15 @@ for i, month in enumerate(months):
     excelSheet = pd.read_excel(filename, sheet_name = month)
     addressCol = pd.DataFrame(excelSheet, columns= ['ADDRESS FOUND']) 
     addressCol.dropna(inplace=True)
-    #Do stuff
+    rowCount = addressCol.shape[0]
     print(addressCol)
-    
-    #addressCol.to_excel(writer, sheet_name = month, columns= ['ADDRESS FOUND'], index = False )
+    print(type(rowCount))
+    # for 
+    #     geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
+
+
+
+
 
 # psedoCode
 
