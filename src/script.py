@@ -1,4 +1,4 @@
-#GoogleMaps API key import
+#Import enviroment to get API KEY secretly
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -12,13 +12,12 @@ gmaps = googlemaps.Client(key=KEY)
 import pandas as pd
 import openpyxl as op
 
-
 #File managment Import
 from tkinter import filedialog
 filename = filedialog.askopenfilename()
-#outFilename = filedialog.asksaveasfilename(defaultextension='.xlsx')
 
 #Main 
+
 months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
 
@@ -28,27 +27,27 @@ for n, month in enumerate(months):
     addressCol.dropna(inplace=True)
     rowCount = addressCol.shape[0]
 
-    wb = op.load_workbook(filename)
-    ws = wb[month]
+    openWorkbook = op.load_workbook(filename)
+    currentWorksheet = openWorkbook[month]
 
     for i in range(0,rowCount):
-        addStr = addressCol.iloc[i][0]
-        #print(addStr)
-        if addStr != 'UNK':
-            geocodeResult = gmaps.geocode(addStr)
+        addressStr = addressCol.iloc[i][0]
+
+        if addressStr != 'UNK':
+            geocodeResult = gmaps.geocode(addressStr)
             #print(type(geocodeResult))
             if geocodeResult:
                 addressCol.iloc[i][0] = geocodeResult[0]["formatted_address"]
             else:
                 addressCol.iloc[i][0] = 'MANUAL CHECK ' + addressCol.iloc[i][0]
-        
-        #print(addressCol.iloc[i][0])
-    print(month)
+
+    print(month) #Making sure script it running
+    
     for index, row in addressCol.iterrows():
         cell = 'J%d'  % (index + 2)
-        ws[cell] = row[0]
+        currentWorksheet[cell] = row[0]
     
-    wb.save(filename)
+    openWorkbook.save(filename)
 
 
 # psedoCode
