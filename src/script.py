@@ -27,12 +27,21 @@ for i, month in enumerate(months):
     addressCol = pd.DataFrame(excelSheet, columns= ['ADDRESS FOUND']) 
     addressCol.dropna(inplace=True)
     rowCount = addressCol.shape[0]
-    #print(addressCol)
-    print(addressCol.iloc[0][0])
-    addStr = addressCol.iloc[0][0]
-    geocode_result = gmaps.geocode(addStr)
-    fullAddress = geocode_result[0]["formatted_address"]
-    print(fullAddress)
+
+    for i in range(0,rowCount):
+        addStr = addressCol.iloc[i][0]
+        print(addStr)
+        if addStr != 'UNK':
+            geocode_result = gmaps.geocode(addStr)
+            #print(type(geocode_result))
+            if geocode_result:
+                addressCol.iloc[i][0] = geocode_result[0]["formatted_address"]
+        
+        print(addressCol.iloc[i][0])
+
+
+
+
 
 
     # for 
