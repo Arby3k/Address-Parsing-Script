@@ -19,36 +19,36 @@ filename = filedialog.askopenfilename()
 #outFilename = filedialog.asksaveasfilename(defaultextension='.xlsx')
 
 #Main 
-months = ['JAN']#, 'FEB', 'MAR', 'APR', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 
 
-for i, month in enumerate(months):
+for n, month in enumerate(months):
     excelSheet = pd.read_excel(filename, sheet_name = month)
     addressCol = pd.DataFrame(excelSheet, columns= ['ADDRESS FOUND']) 
     addressCol.dropna(inplace=True)
     rowCount = addressCol.shape[0]
 
+    wb = op.load_workbook(filename)
+    ws = wb[month]
+
     for i in range(0,rowCount):
         addStr = addressCol.iloc[i][0]
-        print(addStr)
+        #print(addStr)
         if addStr != 'UNK':
-            geocode_result = gmaps.geocode(addStr)
-            #print(type(geocode_result))
-            if geocode_result:
-                addressCol.iloc[i][0] = geocode_result[0]["formatted_address"]
+            geocodeResult = gmaps.geocode(addStr)
+            #print(type(geocodeResult))
+            if geocodeResult:
+                addressCol.iloc[i][0] = geocodeResult[0]["formatted_address"]
+            else:
+                addressCol.iloc[i][0] = 'MANUAL CHECK ' + addressCol.iloc[i][0]
         
-        print(addressCol.iloc[i][0])
-
-
-
-
-
-
-    # for 
-    #     geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
-
-
-
+        #print(addressCol.iloc[i][0])
+    print(month)
+    for index, row in addressCol.iterrows():
+        cell = 'J%d'  % (index + 2)
+        ws[cell] = row[0]
+    
+    wb.save(filename)
 
 
 # psedoCode
